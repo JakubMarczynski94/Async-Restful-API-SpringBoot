@@ -13,7 +13,7 @@ public class SimpleAsyncCtrl {
 
     @GetMapping(path="/api/v1/task")
     public WebAsyncTask<Map<String, Object>> simpleAsyncTask(@RequestParam(defaultValue="5") long t) {
-        return new WebAsyncTask<Map<String, Object>>((t > 10 ? 10 : t) * 1000, () -> {
+        return new WebAsyncTask<Map<String, Object>>(10000, () -> {
             Thread.sleep(t * 1000);
             return Collections.<String, Object>singletonMap("key", "success");
         });
