@@ -29,7 +29,7 @@ public class RemoteResponseAsyncCtrl {
             DataCollectCallable dataCollectCallable = new DataCollectCallable();
             inventory.put(token, dataCollectCallable);
             
-            WebAsyncTask<Object> webAsyncTask = new WebAsyncTask<Object>(t * 1000, dataCollectCallable);
+            WebAsyncTask<Object> webAsyncTask = new WebAsyncTask<Object>(t * 6000, dataCollectCallable);
             webAsyncTask.onTimeout(() -> {
                 dataCollectCallable.unfreeze();
                 inventory.remove(token);
@@ -41,6 +41,8 @@ public class RemoteResponseAsyncCtrl {
     
     @PostMapping(path="/api/v2/task") 
     public Object provideDelayData(@RequestParam String token, @RequestBody String data){
+        // there might have some token validation here
+        
         DataCollectCallable dataCollectCallable = inventory.remove(token);
         if(dataCollectCallable != null) {
             dataCollectCallable.setData(data);
